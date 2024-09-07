@@ -54,16 +54,7 @@ export async function writeFileMetadata(album: AlbumGetByUrlResponse, track: Tra
 
     const existingCover = hasCoverImage(albumPath);
 
-    if (assetUrl) {
+    if (assetUrl && !existingCover) {
         await downloadURLToFilePath(assetUrl, `${albumPath}/cover.${assetUrl.split(/[#?]/)[0].split('.').pop().trim()}`);
-        const replaceCover = await optionPrompt("An existing cover file was found. Replace it? (y/n): ", ["y", "n"]) == "y";
-
-        if(replaceCover) {
-            fs.rmSync(existingCover);
-        }
-    
-    }
-    else {
-        console.log("Could not find album cover");
     }
 }
