@@ -19,12 +19,13 @@ async function getAlbumInfo(artist: string, album: string) {
 }
 
 async function getMetadataObject(album, track: TrackGetByUrlResponse, index) {
+    console.log(index);
     const dict = {
         album: cleanseTitle(album?.name) ?? undefined,
         title: cleanseTitle(track?.metadata?.title),
         artist: album?.artist ?? track.metadata.artists[0].name,
         year: new Date(album?.releaseDate).getFullYear().toString() ?? undefined,
-        trackNumber: index ? index + 1 : undefined,
+        trackNumber: index || index == 0 ? index + 1 : 1,
         discNumber: 1,
         mbid: album?.mbid ?? undefined
     };
