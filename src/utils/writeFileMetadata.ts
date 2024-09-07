@@ -4,8 +4,6 @@ import id3pkg from 'node-id3';
 const { update } = id3pkg;
 import { downloadURLToFilePath } from "./downloadURLToFilePath.js";
 import * as fs from "fs";
-import path from "path";
-import { optionPrompt } from "./optionPrompt.js";
 
 async function getAlbumInfo(artist: string, album: string) {
     const apiKey = process.env.LASTFM_API_KEY;
@@ -19,7 +17,6 @@ async function getAlbumInfo(artist: string, album: string) {
 }
 
 async function getMetadataObject(album, track: TrackGetByUrlResponse, index) {
-    console.log(index);
     const dict = {
         album: cleanseTitle(album?.name) ?? undefined,
         title: cleanseTitle(track?.metadata?.title),
