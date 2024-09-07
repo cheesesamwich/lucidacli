@@ -44,7 +44,7 @@ export async function writeFileMetadata(album: AlbumGetByUrlResponse, track: Tra
         const coverFile = files.find(file => {
             return file.split(".")[0] === 'cover' && ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff'].includes(file.split(".")[1]);
         });
-        return `${dir}/${coverFile}`;
+        return coverFile ?? undefined;
     }
     
     const assetUrl = lastFMAlbum?.image
