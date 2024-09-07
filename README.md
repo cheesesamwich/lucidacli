@@ -10,9 +10,9 @@ Clone the repo, install the deps, fill out the `.env`, `npm start`. I'm not smar
 I planned to initially, but a lot of services require api keys (except spotify, which is just unreliable)
 
 ### 2) What are all of the environment variables?
-SOUNDCLOUD_PASSWORD: The password of your soundcloud account
-SOUNDCLOUD_USERNAME: The username of your soundcloud account
-DOWNLOAD_PATH: The absolute directory you want files to be downloaded to. Defaults to home/Downloads if not specified
+`SOUNDCLOUD_PASSWORD`: The password of your soundcloud account\
+`SOUNDCLOUD_USERNAME`: The username of your soundcloud account\
+`DOWNLOAD_PATH`: The absolute directory you want files to be downloaded to. Defaults to home/Downloads if not specified\
 
 ### 3) Some albums don't show up with a search
 I'm not sure why this happens, but it's usually more reliable to use the direct link option
