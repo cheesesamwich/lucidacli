@@ -1,10 +1,9 @@
 import * as cliProgress from "cli-progress";
 
-import * as ffmetadata from "ffmetadata";
 import { fileTypeFromStream } from 'file-type';
 import * as fs from "fs";
 
-import { TrackGetByUrlResponse } from 'lucida/types';
+import { AlbumGetByUrlResponse, TrackGetByUrlResponse } from 'lucida/types';
 import EventEmitter from 'events';
 
 import { getAlbum } from './getAlbum.js';
@@ -12,7 +11,9 @@ import { getDownloadDir } from "./utils/getDownloadDir.js";
 import { getLucida } from "./lucida.js";
 import { cleanseTitle } from "./utils/cleanseTitle.js";
 import { optionPrompt } from "./utils/optionPrompt.js";
-import { createFileMetadata } from "./utils/createFileMetadata.js";
+import { writeFileMetadata } from "./utils/writeFileMetadata.js";
+import { downloadURLToFilePath } from "./utils/downloadURLToFilePath.js";
+import { exec } from "child_process";
 
 //thank you lucida
 EventEmitter.defaultMaxListeners = 0;
@@ -75,9 +76,12 @@ async function mainProcess() {
             const pathWithType = `${path}.${fileType.ext}`;
             await fs.promises.rename(tempPath, pathWithType);
 
-            await ffmetadata.write(pathWithType, createFileMetadata(album, trackData), function (err) {
-                if (err) fail()
-            });
+            await writeFileMetadata(album, trackData, pathWithType);
+
+            // i have no idea why but the asset doesn't match the actual album asset
+            const assetUrl = album.metadata.coverArtwork[0].url;
+
+            await downloadURLToFilePath(assetUrl, `${albumPath}/cover.${assetUrl.split(/[#?]/)[0].split('.').pop().trim()}`);
 
             completedDownloads.push(trackData);
             downloadBar.update(completedDownloads.length, { trackName: cleanseTitle(track.title) });
