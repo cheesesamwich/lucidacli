@@ -21,4 +21,4 @@ I'm not sure why this happens, but it's usually more reliable to use the direct 
 Try again :P
 
 ### 5) I experience issues/crashes/other weird shit
-Try debug it yourself! A lot of the code here isn't heavily vetted for stability, i wrote it in a couple days. I will maintain bugs in the future (but no guarantees)
+Try debug it yourself! A lot of the code here isn't heavily vetted for stability, i wrote it in a couple days. I will try to maintain bugs in the future, but no guarantees

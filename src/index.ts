@@ -46,7 +46,7 @@ async function mainProcess() {
 
     downloadBar.start(albumTracks.length, 0, { trackName: "" });
 
-    albumTracks.forEach(async track => {
+    const downloadPromises = albumTracks.map(async track => {
         //this isn't used for anything yet
         function fail() {
             failedDownloads.push(track);
@@ -58,11 +58,9 @@ async function mainProcess() {
             if (!url) return;
 
             const path = `${albumPath}/${cleanseTitle(track.title)}`;
-
             const tempPath = `${path}temp`;
 
             const trackData = await lucida.getByUrl(url) as TrackGetByUrlResponse;
-
             const trackStream = await trackData.getStream();
 
             await fs.promises.writeFile(tempPath, trackStream.stream);
@@ -75,21 +73,22 @@ async function mainProcess() {
             }
 
             const pathWithType = `${path}.${fileType.ext}`;
-
             await fs.promises.rename(tempPath, pathWithType);
 
-            ffmetadata.write(pathWithType, createFileMetadata(album, trackData), function (err) {
+            await ffmetadata.write(pathWithType, createFileMetadata(album, trackData), function (err) {
                 if (err) fail()
             });
 
             completedDownloads.push(trackData);
             downloadBar.update(completedDownloads.length, { trackName: cleanseTitle(track.title) });
+            
         } catch (error) {
             console.log(`Failed to download "${track.title}": ${error.message}`);
             fail();
         }
     });
 
+    await Promise.all(downloadPromises);
     downloadBar.stop();
 
     lucida.disconnect();
