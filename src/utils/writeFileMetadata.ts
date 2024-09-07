@@ -3,6 +3,9 @@ import { cleanseTitle } from "./cleanseTitle.js";
 import id3pkg from 'node-id3';
 const { update } = id3pkg;
 import { downloadURLToFilePath } from "./downloadURLToFilePath.js";
+import * as fs from "fs";
+import path from "path";
+import { optionPrompt } from "./optionPrompt.js";
 
 async function getAlbumInfo(artist: string, album: string) {
     const apiKey = process.env.LASTFM_API_KEY;
@@ -15,34 +18,50 @@ async function getAlbumInfo(artist: string, album: string) {
     else return null;
 }
 
-async function getMetadataObject(album, track, index) {
+async function getMetadataObject(album, track: TrackGetByUrlResponse, index) {
     const dict = {
-        album: cleanseTitle(album.name),
-        title: cleanseTitle(track.metadata.title),
-        artist: album.artist,
-        year: new Date(album.releaseDate).getFullYear().toString(),
-        trackNumber: index + 1,
+        album: cleanseTitle(album?.name) ?? undefined,
+        title: cleanseTitle(track?.metadata?.title),
+        artist: album?.artist ?? track.metadata.artists[0].name,
+        year: new Date(album?.releaseDate).getFullYear().toString() ?? undefined,
+        trackNumber: index ? index + 1 : undefined,
         discNumber: 1,
-        mbid: album.mbid
+        mbid: album?.mbid ?? undefined
     };
 
     return dict;
 }
 
 export async function writeFileMetadata(album: AlbumGetByUrlResponse, track: TrackGetByUrlResponse, path, albumPath, index) {
-    const lastFMAlbum = (await getAlbumInfo(album.metadata.artists[0].name, album.metadata.title)).album;
+    const lastFMAlbum = album && album?.metadata && (await getAlbumInfo(album.metadata.artists[0].name, album.metadata.title)).album;
 
-    const metadata = await getMetadataObject(lastFMAlbum, track, index);
+    const metadata = await getMetadataObject(lastFMAlbum, track, index ?? undefined);
 
     await update(metadata, path, (err) => { if (err) console.log(`Error: ${err}`) });
 
-    const assetUrl = lastFMAlbum.image
-        .filter(e => e.hasOwnProperty("#text"))
-        .filter(e => e["#text"].length)
-        .pop()?.["#text"] ?? album.metadata.coverArtwork[0].url;
+    function hasCoverImage(dir: string): string {
+        const files = fs.readdirSync(dir);
+        const coverFile = files.find(file => {
+            return file.split(".")[0] === 'cover' && ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff'].includes(file.split(".")[1]);
+        });
+        return `${dir}/${coverFile}`;
+    }
+    
+    const assetUrl = lastFMAlbum?.image
+    .filter(e => e.hasOwnProperty("#text"))
+    .filter(e => e["#text"].length)
+    .pop()?.["#text"] ?? album?.metadata.coverArtwork[0].url ?? track.metadata.artists[0].pictures[0];
 
-    if(assetUrl) {
+    const existingCover = hasCoverImage(albumPath);
+
+    if (assetUrl) {
         await downloadURLToFilePath(assetUrl, `${albumPath}/cover.${assetUrl.split(/[#?]/)[0].split('.').pop().trim()}`);
+        const replaceCover = await optionPrompt("An existing cover file was found. Replace it? (y/n): ", ["y", "n"]) == "y";
+
+        if(replaceCover) {
+            fs.rmSync(existingCover);
+        }
+    
     }
     else {
         console.log("Could not find album cover");

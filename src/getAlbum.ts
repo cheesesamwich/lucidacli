@@ -2,18 +2,10 @@ import { Album, AlbumGetByUrlResponse, GetByUrlResponse } from 'lucida/types';
 import promptSync from 'prompt-sync';
 import { getLucida } from './lucida.js';
 import { optionPrompt } from './utils/optionPrompt.js';
+import { urlPrompt } from './utils/urlPrompt.js';
 
 const lucida = getLucida();
 
-async function getURL(url: string): Promise<GetByUrlResponse> {
-    try {
-        return await lucida.getByUrl(url);
-    }
-    catch {
-        console.log(`Album does not exist or failed to get`);
-        return;
-    }
-}
 
 async function searchAndSelectValue(): Promise<Album> {
     const query = promptSync()("Search query: ");
@@ -41,27 +33,15 @@ async function searchAndSelectValue(): Promise<Album> {
 export async function getAlbum(): Promise<AlbumGetByUrlResponse | undefined> {
     const searchOrDirect = optionPrompt("Do you have a direct URL, or would you like to search? (d/s): ", ["d", "s"]);
 
-    let url;
-
     switch (searchOrDirect) {
         case "s":
             const selection = await searchAndSelectValue();
-
-            url = selection.url;
-            break;
+            return await lucida.getByUrl(selection.url) as AlbumGetByUrlResponse;
         case "d":
-            url = promptSync()("Enter Soundcloud URL: ");
-
-            const urlRegex = /https?:\/\/(soundcloud\.com).*/
-
-            if (!urlRegex.test(url)) {
-                console.log(`Invalid URL!`);
-                return;
-            }
-            break;
+            return await urlPrompt("album");
         default:
         // ?????????????
     }
 
-    return await getURL(url) as AlbumGetByUrlResponse;
+    return null;
 }

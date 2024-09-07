@@ -1,95 +1,47 @@
-import * as cliProgress from "cli-progress";
-
-import { fileTypeFromStream } from 'file-type';
-import * as fs from "fs";
-
-import { AlbumGetByUrlResponse, TrackGetByUrlResponse } from 'lucida/types';
 import EventEmitter from 'events';
-
-import { getAlbum } from './getAlbum.js';
-import { getDownloadDir } from "./utils/getDownloadDir.js";
 import { getLucida } from "./lucida.js";
-import { cleanseTitle } from "./utils/cleanseTitle.js";
-import { optionPrompt } from "./utils/optionPrompt.js";
-import { writeFileMetadata } from "./utils/writeFileMetadata.js";
-import { downloadURLToFilePath } from "./utils/downloadURLToFilePath.js";
-import { exec } from "child_process";
+import { optionPrompt } from './utils/optionPrompt.js';
+import { downloadAlbumProcess } from './downloadAlbumProcess.js';
+import { downloadTrack } from './downloadTrack.js';
+import { getDownloadDir } from './utils/getDownloadDir.js';
+import { cleanseTitle } from './utils/cleanseTitle.js';
+import { TrackGetByUrlResponse } from 'lucida/types';
+import { urlPrompt } from './utils/urlPrompt.js';
+import * as fs from "fs";
 
 //thank you lucida
 EventEmitter.defaultMaxListeners = 0;
 
-const lucida = getLucida();
-
 //absolutely behemoth function but i have no fucking clue how to cut it down
 async function mainProcess() {
+    const mode = optionPrompt("What would you like to download, a song (BETA) or an album? (s/a): ", ["s", "a"]);
 
-    let album = await getAlbum();
+    switch (mode) {
+        case "s":
 
-    if (!album) return;
-    const albumYear = new Date(album.metadata.releaseDate).getFullYear();
+            const track = await urlPrompt("track") as TrackGetByUrlResponse;
+            
+            //i'm not sure if this is ever actually valid
+            const album = track.metadata.album;
 
-    const albumPath = `${getDownloadDir()}/${album.metadata.artists[0].name}/${cleanseTitle(album.metadata.title)} (${albumYear})`;
+            const albumPath = `${getDownloadDir()}/${track.metadata.artists[0].name}/${album?.title &&
+                album.trackCount > 1 ?
+                cleanseTitle(album.title) :
+                "Singles"
+                }`;
 
-    if (!fs.existsSync(albumPath)) {
-        fs.mkdirSync(albumPath, { recursive: true });
-    }
 
-    const albumTracks = album.tracks ?? [];
-    let completedDownloads = [];
-    let failedDownloads = [];
-
-    const downloadBar = new cliProgress.SingleBar({
-        format: '{bar} {value}/{total} - {trackName}'
-    }, cliProgress.Presets.shades_classic);
-
-    downloadBar.start(albumTracks.length, 0, { trackName: "" });
-
-    const downloadPromises = albumTracks.map(async (track, index) => {
-        //this isn't used for anything yet
-        function fail() {
-            failedDownloads.push(track);
-            return;
-        }
-
-        try {
-            const url = track.url;
-
-            if (!url) return;
-
-            const path = `${albumPath}/${cleanseTitle(track.title)}`;
-            const tempPath = `${path}temp`;
-
-            const trackData = await lucida.getByUrl(url) as TrackGetByUrlResponse;
-            const trackStream = await trackData.getStream();
-
-            //need to make some kind of error/retry handler
-            await fs.promises.writeFile(tempPath, trackStream.stream);
-
-            const fileType = await fileTypeFromStream(fs.createReadStream(tempPath));
-
-            if (!fileType?.ext) {
-                console.log(`Filetype is ${fileType.ext}`);
-                fail();
+            if (!fs.existsSync(albumPath)) {
+                fs.mkdirSync(albumPath, { recursive: true });
             }
 
-            const pathWithType = `${path}.${fileType.ext}`;
-            await fs.promises.rename(tempPath, pathWithType);
 
-            await writeFileMetadata(album, trackData, pathWithType, albumPath, index);
-
-            completedDownloads.push(trackData);
-            downloadBar.update(completedDownloads.length, { trackName: cleanseTitle(track.title) });
-            
-        } catch (error) {
-            console.log(`Failed to download "${track.title}": ${error.message}`);
-            fail();
-        }
-    });
-
-    await Promise.all(downloadPromises);
-    downloadBar.stop();
-
-    lucida.disconnect();
+            await downloadTrack(album, track.metadata, undefined, [], [], albumPath)
+            break;
+        case "a":
+            downloadAlbumProcess();
+            break;
+    }
 }
 
 mainProcess();
