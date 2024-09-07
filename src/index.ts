@@ -26,12 +26,9 @@ async function mainProcess() {
     let album = await getAlbum();
 
     if (!album) return;
-
-    const removeBrackets = await optionPrompt("Remove brackets from songs (y/n): ", ["y", "n"]) == "y";
-
     const albumYear = new Date(album.metadata.releaseDate).getFullYear();
 
-    const albumPath = `${getDownloadDir()}/${album.metadata.artists[0].name}/${cleanseTitle(album.metadata.title, removeBrackets)} (${albumYear})`;
+    const albumPath = `${getDownloadDir()}/${album.metadata.artists[0].name}/${cleanseTitle(album.metadata.title)} (${albumYear})`;
 
     if (!fs.existsSync(albumPath)) {
         fs.mkdirSync(albumPath, { recursive: true });
@@ -47,7 +44,7 @@ async function mainProcess() {
 
     downloadBar.start(albumTracks.length, 0, { trackName: "" });
 
-    const downloadPromises = albumTracks.map(async track => {
+    const downloadPromises = albumTracks.map(async (track, index) => {
         //this isn't used for anything yet
         function fail() {
             failedDownloads.push(track);
@@ -56,6 +53,7 @@ async function mainProcess() {
 
         try {
             const url = track.url;
+
             if (!url) return;
 
             const path = `${albumPath}/${cleanseTitle(track.title)}`;
@@ -64,6 +62,7 @@ async function mainProcess() {
             const trackData = await lucida.getByUrl(url) as TrackGetByUrlResponse;
             const trackStream = await trackData.getStream();
 
+            //need to make some kind of error/retry handler
             await fs.promises.writeFile(tempPath, trackStream.stream);
 
             const fileType = await fileTypeFromStream(fs.createReadStream(tempPath));
@@ -76,12 +75,7 @@ async function mainProcess() {
             const pathWithType = `${path}.${fileType.ext}`;
             await fs.promises.rename(tempPath, pathWithType);
 
-            await writeFileMetadata(album, trackData, pathWithType);
-
-            // i have no idea why but the asset doesn't match the actual album asset
-            const assetUrl = album.metadata.coverArtwork[0].url;
-
-            await downloadURLToFilePath(assetUrl, `${albumPath}/cover.${assetUrl.split(/[#?]/)[0].split('.').pop().trim()}`);
+            await writeFileMetadata(album, trackData, pathWithType, albumPath, index);
 
             completedDownloads.push(trackData);
             downloadBar.update(completedDownloads.length, { trackName: cleanseTitle(track.title) });

@@ -50,10 +50,10 @@ export async function getAlbum(): Promise<AlbumGetByUrlResponse | undefined> {
             url = selection.url;
             break;
         case "d":
-            url = promptSync()("Enter Soundcloud Or Spotify URL: ");
+            url = promptSync()("Enter Soundcloud URL: ");
 
             const urlRegex = /https?:\/\/(soundcloud\.com).*/
-            
+
             if (!urlRegex.test(url)) {
                 console.log(`Invalid URL!`);
                 return;

@@ -7,12 +7,13 @@ Clone the repo, install the deps, fill out the `.env`, `npm start`. I'm not smar
 ## Faq
 
 ### 1) Why only soundcloud? Why not support other services?
-I planned to initially, but a lot of services require api keys (except spotify, which is just unreliable)
+I planned to initially, but a lot of services require api keys (ergo i couldn't test them) and spotify is just plain broken
 
 ### 2) What are all of the environment variables?
 `SOUNDCLOUD_PASSWORD`: The password of your soundcloud account\
 `SOUNDCLOUD_USERNAME`: The username of your soundcloud account\
 `DOWNLOAD_PATH`: The absolute directory you want files to be downloaded to (default is home/Downloads)
+`LASTFM_API_KEY`: Your last FM api key (required for metadata)
 
 ### 3) Some albums don't show up with a search
 I'm not sure why this happens, but it's usually more reliable to use the direct link option
@@ -21,4 +22,7 @@ I'm not sure why this happens, but it's usually more reliable to use the direct 
 Try again :P
 
 ### 5) I experience issues/crashes/other weird shit
-Try debug it yourself! A lot of the code here isn't heavily vetted for stability, i wrote it in a couple days. I will try to maintain bugs in the future, but no guarantees
+Try to debug it yourself! A lot of the code here isn't heavily vetted for stability, i wrote it in a couple days. I will try to maintain bugs in the future, but no guarantees
+
+### 6) All downloaded songs cut off at 0:29
+I'm pretty sure this is because of soundcloud go limitations, no fix (unless you actually want to buy soundcloud go)

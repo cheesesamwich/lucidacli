@@ -1,4 +1,4 @@
-export function cleanseTitle(title: string, removeBrackets: boolean = false): string {
+export function cleanseTitle(title: string, removeBrackets: boolean = true): string {
     let returnedTitle = title;
     if (removeBrackets) {
         returnedTitle = returnedTitle.replace(/\(.*\)/g, "");

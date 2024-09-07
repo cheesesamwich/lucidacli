@@ -9,7 +9,7 @@ export function getLucida() {
     const soundcloudPassword = process.env.SOUNDCLOUD_PASSWORD;
     const soundcloudUsername = process.env.SOUNDCLOUD_USERNAME;
 
-    if(!soundcloudPassword || !soundcloudUsername) {
+    if (!soundcloudPassword || !soundcloudUsername) {
         console.log("Your soundcloud details are missing! Set SOUNDCLOUD_PASSWORD and SOUNDCLOUD_USERNAME in your .env");
         process.exit();
     }
@@ -25,7 +25,7 @@ export function getLucida() {
             }
         }
     });
-    
+
     lucida.login();
     return lucida;
 }
