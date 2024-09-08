@@ -35,7 +35,6 @@ async function mainProcess() {
                 fs.mkdirSync(albumPath, { recursive: true });
             }
 
-
             await downloadTrack(album, track.metadata, undefined, [], [], albumPath)
             break;
         case "a":

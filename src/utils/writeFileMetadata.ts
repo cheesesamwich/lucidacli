@@ -37,10 +37,12 @@ export async function writeFileMetadata(album: AlbumGetByUrlResponse, track: Tra
 
     await update(metadata, path, (err) => { if (err) console.log(`Error: ${err}`) });
 
-    function hasCoverImage(dir: string): string {
+    function hasCoverImage(dir: string): string | undefined {
         const files = fs.readdirSync(dir);
         const coverFile = files.find(file => {
-            return file.split(".")[0] === 'cover' && ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff'].includes(file.split(".")[1]);
+            if (!file) return false;
+            const parts = file.split(".");
+            return parts[0] === 'cover' && ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff'].includes(parts[1]);
         });
         return coverFile ?? undefined;
     }
@@ -53,6 +55,7 @@ export async function writeFileMetadata(album: AlbumGetByUrlResponse, track: Tra
     const existingCover = hasCoverImage(albumPath);
 
     if (assetUrl && !existingCover) {
-        await downloadURLToFilePath(assetUrl, `${albumPath}/cover.${assetUrl.split(/[#?]/)[0].split('.').pop().trim()}`);
+        return;
+        await downloadURLToFilePath(assetUrl, `${albumPath}/cover.${assetUrl?.split(/[#?]/)[0]?.split('.').pop().trim()}`);
     }
 }

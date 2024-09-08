@@ -2,10 +2,9 @@ import { Album, AlbumGetByUrlResponse, GetByUrlResponse } from 'lucida/types';
 import promptSync from 'prompt-sync';
 import { getLucida } from './lucida.js';
 import { optionPrompt } from './utils/optionPrompt.js';
-import { urlPrompt } from './utils/urlPrompt.js';
+import { getUrlWithRetry, urlPrompt } from './utils/urlPrompt.js';
 
 const lucida = getLucida();
-
 
 async function searchAndSelectValue(): Promise<Album> {
     const query = promptSync()("Search query: ");
@@ -36,7 +35,7 @@ export async function getAlbum(): Promise<AlbumGetByUrlResponse | undefined> {
     switch (searchOrDirect) {
         case "s":
             const selection = await searchAndSelectValue();
-            return await lucida.getByUrl(selection.url) as AlbumGetByUrlResponse;
+            return await getUrlWithRetry(selection.url) as AlbumGetByUrlResponse;
         case "d":
             return await urlPrompt("album");
         default:
