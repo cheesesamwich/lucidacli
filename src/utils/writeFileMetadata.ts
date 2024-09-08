@@ -55,7 +55,6 @@ export async function writeFileMetadata(album: AlbumGetByUrlResponse, track: Tra
     const existingCover = hasCoverImage(albumPath);
 
     if (assetUrl && !existingCover) {
-        return;
         await downloadURLToFilePath(assetUrl, `${albumPath}/cover.${assetUrl?.split(/[#?]/)[0]?.split('.').pop().trim()}`);
     }
 }
