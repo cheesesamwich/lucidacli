@@ -24,6 +24,7 @@ async function searchAndSelectValue(): Promise<Album> {
         console.log("No results! Sorry :(");
         process.exit();
     }
+    
     console.log(Object.values(albums).map((e, index) => `${index}) "${e.title}" - ${e.artists[0].name} - ${e.url}`).join("\n").trim());
 
     return Object.values(albums)[Number(promptSync()("Select an album: "))];

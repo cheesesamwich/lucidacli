@@ -1,6 +1,6 @@
 import PromptSync from "prompt-sync";
 
-export function optionPrompt(message: string, options: string[]) {
+export function optionPrompt(message: string, options: string[] = ["y", "n"]) {
     while (true) {
         const input = PromptSync()(message);
         const selectedOption = options.find(e => e.toLowerCase() === input.toLowerCase());
