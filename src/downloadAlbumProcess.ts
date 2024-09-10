@@ -22,7 +22,7 @@ export async function downloadAlbumProcess() {
     
     let artistName = overrideMetadata ? PromptSync()("Artist name: ") : album.tracks[0].artists[0].name;
 
-    const albumPath = `${getDownloadDir()}/${artistName ?? PromptSync()("Album artist name could not be found, input it manually: ")}/${cleanseTitle(album.metadata.title)} ${(albumYear && albumYear != 1970) && `(${albumYear})`}`;
+    const albumPath = `${getDownloadDir()}/${artistName ?? PromptSync()("Album artist name could not be found, input it manually: ")}/${cleanseTitle(album.metadata.title)} ${(albumYear && albumYear != 1970) ? `(${albumYear})` : ""}`;
 
     if (!fs.existsSync(albumPath)) {
         fs.mkdirSync(albumPath, { recursive: true });
