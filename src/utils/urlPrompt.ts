@@ -14,23 +14,30 @@ export async function getUrlWithRetry(url: string): Promise<GetByUrlResponse> {
     }
 }
 
-export async function urlPrompt(wantedType?: ItemType): Promise<any> {
+export async function urlPrompt(wantedType?: ItemType, returnURL?: boolean): Promise<any> {
     while (true) {
         try {
             const prompt = promptSync()("Enter Soundcloud URL: ");
             if (prompt && urlRegex.test(prompt)) {
 
-                const data = await getUrlWithRetry(prompt);
+                const type = await lucida.getTypeFromUrl(prompt);
 
-                if (data) {
+                let data;
+
+                if (!returnURL) {
+                    data = await getUrlWithRetry(prompt);
+                }
+
+                const returnedValue = returnURL ? prompt : data;
+
+                if (data || returnURL) {
                     if (wantedType) {
-                        const type = await lucida.getTypeFromUrl(prompt);
                         if (type == wantedType) {
-                            return data;
+                            return returnedValue;
                         }
                     }
                     else {
-                        return data;
+                        return returnedValue;
                     }
                 }
             }

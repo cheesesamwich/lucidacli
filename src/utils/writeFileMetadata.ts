@@ -17,11 +17,11 @@ async function getAlbumInfo(artist: string, album: string) {
     else return null;
 }
 
-async function getMetadataObject(album, track: TrackGetByUrlResponse, index, overrideArtistName) {
+async function getMetadataObject(album, track: TrackGetByUrlResponse, index) {
     const dict = {
         album: cleanseTitle(album?.name) ?? undefined,
         title: cleanseTitle(track?.metadata?.title),
-        artist: overrideArtistName ?? album?.artist ?? track.metadata.artists[0].name,
+        artist: album?.artist ?? track.metadata.artists[0].name,
         year: new Date(album?.releaseDate).getFullYear().toString() ?? undefined,
         trackNumber: index || index == 0 ? index + 1 : 1,
         discNumber: 1,
@@ -31,10 +31,10 @@ async function getMetadataObject(album, track: TrackGetByUrlResponse, index, ove
     return dict;
 }
 
-export async function writeFileMetadata(album: AlbumGetByUrlResponse, track: TrackGetByUrlResponse, path, albumPath, index, overrideArtistName) {
+export async function writeFileMetadata(album: AlbumGetByUrlResponse, track: TrackGetByUrlResponse, path, albumPath, index) {
     const lastFMAlbum = album && album?.metadata && (await getAlbumInfo(album.metadata.artists[0].name, album.metadata.title)).album;
 
-    const metadata = await getMetadataObject(lastFMAlbum, track, index ?? undefined, overrideArtistName);
+    const metadata = await getMetadataObject(lastFMAlbum, track, index ?? undefined);
 
     await update(metadata, path, (err) => { if (err) console.log(`Error: ${err}`) });
 

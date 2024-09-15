@@ -30,15 +30,15 @@ async function searchAndSelectValue(): Promise<Album> {
     return Object.values(albums)[Number(promptSync()("Select an album: "))];
 }
 
-export async function getAlbum(): Promise<AlbumGetByUrlResponse | undefined> {
+export async function getAlbum(): Promise<string | undefined> {
     const searchOrDirect = optionPrompt("Do you have a direct URL, or would you like to search? (d/s): ", ["d", "s"]);
 
     switch (searchOrDirect) {
         case "s":
             const selection = await searchAndSelectValue();
-            return await getUrlWithRetry(selection.url) as AlbumGetByUrlResponse;
+            return await selection.url;
         case "d":
-            return await urlPrompt("album");
+            return await urlPrompt("album", true);
         default:
         // ?????????????
     }

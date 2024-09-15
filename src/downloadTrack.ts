@@ -7,7 +7,7 @@ import * as fs from "fs";
 
 const lucida = getLucida();
 
-export async function downloadTrack(album, track, index, failedDownloads, completedDownloads, albumPath, overrideArtistName?, retries = 3) {
+export async function downloadTrack(album, track, index, failedDownloads, completedDownloads, albumPath, retries = 3) {
     function fail() {
         failedDownloads.push(track);
     }
@@ -37,7 +37,7 @@ export async function downloadTrack(album, track, index, failedDownloads, comple
             const pathWithType = `${path}.${fileType.ext}`;
             await fs.promises.rename(tempPath, pathWithType);
 
-            await writeFileMetadata(album, trackData, pathWithType, albumPath, index, overrideArtistName);
+            await writeFileMetadata(album, trackData, pathWithType, albumPath, index);
 
             completedDownloads.push(track);
             break;
