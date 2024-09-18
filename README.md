@@ -26,3 +26,6 @@ Try to debug it yourself! A lot of the code here isn't heavily vetted for stabil
 
 ### 6) All downloaded songs cut off at 0:29
 I'm pretty sure this is because of soundcloud go limitations, no fix (unless you actually want to buy soundcloud go)
+
+### 7) Metadata is broken or inaccurate
+I've tried my best to do most of the heavy lifting with the metadata, but due to the nature of soundcloud (and my shitty code) it often messes up. I recommend using Kid3 or another metadata editor to clean up the files after downloading
