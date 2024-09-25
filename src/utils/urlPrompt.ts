@@ -4,7 +4,8 @@ import promptSync from 'prompt-sync';
 
 const lucida = getLucida();
 
-export const urlRegex = /https?:\/\/(soundcloud\.com).*/;
+// export const urlRegex = /https?:\/\/.*(soundcloud\.com|deezer.com).*/;
+export const urlRegex = /(.|\n)*/i
 
 export async function getUrlWithRetry(url: string): Promise<GetByUrlResponse> {
     const tryGet = await lucida.getByUrl(url);

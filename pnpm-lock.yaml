@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@types/node':
-        specifier: ^22.5.4
-        version: 22.5.4
+        specifier: ^22.6.2
+        version: 22.6.2
       '@types/prompt-sync':
         specifier: ^4.2.3
         version: 4.2.3
@@ -24,8 +24,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.5
       file-type:
-        specifier: ^19.4.1
-        version: 19.4.1
+        specifier: ^19.5.0
+        version: 19.5.0
       filereader:
         specifier: ^0.10.3
         version: 0.10.3
@@ -42,11 +42,14 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
       tsx:
-        specifier: ^4.19.0
-        version: 4.19.0
+        specifier: ^4.19.1
+        version: 4.19.1
       typescript:
         specifier: 5.7.0-dev.20240904
         version: 5.7.0-dev.20240904
+      unplayplay:
+        specifier: ^1.0.2
+        version: 1.0.2
 
 packages:
 
@@ -234,8 +237,8 @@ packages:
   '@tokenizer/token@0.3.0':
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
 
-  '@types/node@22.5.4':
-    resolution: {integrity: sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==}
+  '@types/node@22.6.2':
+    resolution: {integrity: sha512-roF5SJIJFOiDNf+vO6h/a0Y02/U4wJ7KwgDNrBdkBGUstvOkct7JQaSkF16jXn/UsAhvNeLEXqyuN6EUvg6+xw==}
 
   '@types/prompt-sync@4.2.3':
     resolution: {integrity: sha512-Ox77gCSx0YyeakGt/qfOZUSFNSSi+sh3ABoGOiCwiO2KODx492BJnUm9oIXS+AHJtqp12iM4RduY6viTJ9bYwA==}
@@ -281,12 +284,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  fast-xml-parser@4.5.0:
-    resolution: {integrity: sha512-/PlTQCI96+fZMAOLMZK4CWG1ItCbfZ/0jx7UIJFChPNrx7tcEgerUgWbeieCM9MfHInUDyK8DWYZ+YrywDJuTg==}
-    hasBin: true
-
-  file-type@19.4.1:
-    resolution: {integrity: sha512-RuWzwF2L9tCHS76KR/Mdh+DwJZcFCzrhrPXpOw6MlEfl/o31fjpTikzcKlYuyeV7e7ftdCGVJTNOCzkYD/aLbw==}
+  file-type@19.5.0:
+    resolution: {integrity: sha512-dMuq6WWnP6BpQY0zYJNpTtQWgeCImSMG0BTIzUBXvxbwc1HWP/E7AE4UWU9XSCOPGJuOHda0HpDnwM2FW+d90A==}
     engines: {node: '>=18'}
 
   filereader@0.10.3:
@@ -317,8 +316,8 @@ packages:
     resolution: {integrity: sha512-kVCxPF3vQM/N0B1PmoqVUqgHP+EeVjmZSQn+1oCRPxd2P21P2F19lIgbR3HBosbB1PUhOAoctJnfEn2GbN2eZA==}
     engines: {node: '>=18'}
 
-  get-tsconfig@4.8.0:
-    resolution: {integrity: sha512-Pgba6TExTZ0FJAn1qkJAjIeKoDJ3CsI2ChuLohJnZl/tTU8MVrq3b+2t5UOPfRa4RMsorClBjJALkJUMjG1PAw==}
+  get-tsconfig@4.8.1:
+    resolution: {integrity: sha512-k9PN+cFBmaLWtVz29SkUoqU5O0slLuHJXt/2P+tMVFT+phsSGXGkp9t3rQIqdz0e+06EHNGs3oM6ZX1s2zHxRg==}
 
   iconv-lite@0.6.2:
     resolution: {integrity: sha512-2y91h5OpQlolefMPmUlivelittSWy0rP+oYVpn6A7GwVHNE8AWzoYOBNmlwks3LobaJxgHCYZAnyNo2GgpNRNQ==}
@@ -343,8 +342,8 @@ packages:
     resolution: {integrity: sha512-Dnz92NInDqYckGEUJv689RbRiTSEHCQ7wOVeALbkOz999YpqT46yMRIGtSNl2iCL1waAZSx40+h59NV/EwzV/A==}
     engines: {node: '>=18'}
 
-  librespot@0.2.11:
-    resolution: {integrity: sha512-WAbqvBCqiyutBSC+3rxIsIJcsFcb7l9fyAHVtvPLh3qHyIimV4jqN46GkLgJDASzTuNK9F6v3yG6EQcSh0Zn8Q==}
+  librespot@0.2.17:
+    resolution: {integrity: sha512-daSvrKh22gFDurCrn3LpVHSV0gjNK6XN9h0nlrIcydOjgNOGHlpIRTmr62OVLtkmkL52Azod9q5JCtF6bnsuhQ==}
 
   long@5.2.3:
     resolution: {integrity: sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==}
@@ -359,9 +358,6 @@ packages:
   mime-types@2.1.35:
     resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
     engines: {node: '>= 0.6'}
-
-  node-addon-api@1.7.2:
-    resolution: {integrity: sha512-ibPK3iA+vaY1eEjESkQkM0BbCqFOaZMiXRTtdB0u7b4djtY6JnsjvPdUHVMg6xQt3B8fpTTWHI9A+ADjM9frzg==}
 
   node-addon-api@8.1.0:
     resolution: {integrity: sha512-yBY+qqWSv3dWKGODD6OGE6GnTX7Q2r+4+DfpqxHSHh8x0B4EKP9+wVGLS6U/AM1vxSNNmUEuIV5EGhYwPpfOwQ==}
@@ -393,9 +389,6 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  shannon-bindings@0.1.0:
-    resolution: {integrity: sha512-svz5ewuAGfrxibOe5GVfPfvjs8FwHEixTW2K3cUEDDt6tCnxTsFzqi0JoQ//45EGYoxxjX2uES3msWE41XVaIQ==}
-
   string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
     engines: {node: '>=8'}
@@ -408,9 +401,6 @@ packages:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
     engines: {node: '>=8'}
 
-  strnum@1.0.5:
-    resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
-
   strtok3@8.1.0:
     resolution: {integrity: sha512-ExzDvHYPj6F6QkSNe/JxSlBxTh3OrI6wrAIz53ulxo1c4hBJ1bT9C/JrAthEKHWG9riVH3Xzg7B03Oxty6S2Lw==}
     engines: {node: '>=16'}
@@ -419,8 +409,8 @@ packages:
     resolution: {integrity: sha512-lbDrTLVsHhOMljPscd0yitpozq7Ga2M5Cvez5AjGg8GASBjtt6iERCAJ93yommPmz62fb45oFIXHEZ3u9bfJEA==}
     engines: {node: '>=14.16'}
 
-  tsx@4.19.0:
-    resolution: {integrity: sha512-bV30kM7bsLZKZIOCHeMNVMJ32/LuJzLVajkQI/qf92J2Qr08ueLQvW00PUZGiuLPP760UINwupgUj8qrSCPUKg==}
+  tsx@4.19.1:
+    resolution: {integrity: sha512-0flMz1lh74BR4wOvBjuh9olbnwqCPc35OOlfyzHba0Dc+QNUeWX/Gq2YTbnwcWPO3BMd8fkzRVrHcsR+a7z7rA==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -443,6 +433,9 @@ packages:
   undici@6.19.8:
     resolution: {integrity: sha512-U8uCCl2x9TK3WANvmBavymRzxbfFYG+tAu+fgx3zxQy3qdagQqBLwJVrdyO1TBfUXvfKveMKJZhpvUYoOjM+4g==}
     engines: {node: '>=18.17'}
+
+  unplayplay@1.0.2:
+    resolution: {integrity: sha512-93aGwcNPyWpIhro6HCWqtWZ0mlurpcpVU2ODSYZCI1PhWGKrJfe7oOF4AKVuVK74YFLYlW3JVzl6Vw1Bck2Vpg==}
 
   xmldom-qsa@1.1.3:
     resolution: {integrity: sha512-IJBOczBpAYrIBJFFsmCBwfBhwe4zdMR3Xz0ZBX0OFtgO49rLy/BWbhkegOwsthdBWb1gUtFK6ZZnGdT8ZqPRBA==}
@@ -551,7 +544,7 @@ snapshots:
 
   '@tokenizer/token@0.3.0': {}
 
-  '@types/node@22.5.4':
+  '@types/node@22.6.2':
     dependencies:
       undici-types: 6.19.8
 
@@ -616,11 +609,7 @@ snapshots:
       '@esbuild/win32-ia32': 0.23.1
       '@esbuild/win32-x64': 0.23.1
 
-  fast-xml-parser@4.5.0:
-    dependencies:
-      strnum: 1.0.5
-
-  file-type@19.4.1:
+  file-type@19.5.0:
     dependencies:
       get-stream: 9.0.1
       strtok3: 8.1.0
@@ -647,7 +636,7 @@ snapshots:
       '@sec-ant/readable-stream': 0.4.1
       is-stream: 4.0.1
 
-  get-tsconfig@4.8.0:
+  get-tsconfig@4.8.1:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
@@ -667,12 +656,11 @@ snapshots:
 
   is-stream@4.0.1: {}
 
-  librespot@0.2.11:
+  librespot@0.2.17:
     dependencies:
-      fast-xml-parser: 4.5.0
       protobufjs: 7.4.0
-      shannon-bindings: 0.1.0
       undici: 5.28.4
+      unplayplay: 1.0.2
 
   long@5.2.3: {}
 
@@ -680,7 +668,7 @@ snapshots:
     dependencies:
       blowfish-cbc: 1.0.1
       image-size: 1.1.1
-      librespot: 0.2.11
+      librespot: 0.2.17
       undici: 6.19.8
       xmldom-qsa: 1.1.3
 
@@ -689,8 +677,6 @@ snapshots:
   mime-types@2.1.35:
     dependencies:
       mime-db: 1.52.0
-
-  node-addon-api@1.7.2: {}
 
   node-addon-api@8.1.0: {}
 
@@ -716,7 +702,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 22.5.4
+      '@types/node': 22.6.2
       long: 5.2.3
 
   proxy-from-env@1.1.0: {}
@@ -728,10 +714,6 @@ snapshots:
   resolve-pkg-maps@1.0.0: {}
 
   safer-buffer@2.1.2: {}
-
-  shannon-bindings@0.1.0:
-    dependencies:
-      node-addon-api: 1.7.2
 
   string-width@4.2.3:
     dependencies:
@@ -747,8 +729,6 @@ snapshots:
     dependencies:
       ansi-regex: 5.0.1
 
-  strnum@1.0.5: {}
-
   strtok3@8.1.0:
     dependencies:
       '@tokenizer/token': 0.3.0
@@ -759,10 +739,10 @@ snapshots:
       '@tokenizer/token': 0.3.0
       ieee754: 1.2.1
 
-  tsx@4.19.0:
+  tsx@4.19.1:
     dependencies:
       esbuild: 0.23.1
-      get-tsconfig: 4.8.0
+      get-tsconfig: 4.8.1
     optionalDependencies:
       fsevents: 2.3.3
 
@@ -777,5 +757,9 @@ snapshots:
       '@fastify/busboy': 2.1.1
 
   undici@6.19.8: {}
+
+  unplayplay@1.0.2:
+    dependencies:
+      node-addon-api: 8.1.0
 
   xmldom-qsa@1.1.3: {}
